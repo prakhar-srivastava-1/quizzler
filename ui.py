@@ -1,11 +1,15 @@
 from tkinter import *
+from quiz_brain import QuizBrain
 
 THEME_COLOR = "#375362"
 
 
-class QuizInterface():
+class QuizInterface:
 
-    def __init__(self):
+    def __init__(self, quiz_brain: QuizBrain):
+        self.quiz_brain = quiz_brain
+
+        # add GUI window
         self.window = Tk()
         self.window.title("Quizzler")
         # add padding and background color
@@ -17,7 +21,12 @@ class QuizInterface():
 
         # add question canvas
         self.canvas = Canvas(width=300, height=250, background="white", highlightthickness=0)
-        self.question_text = self.canvas.create_text(150, 125, text="Dummy Text question?", font=("Arial", 20, "italic"), fill=THEME_COLOR)
+        self.question_text = self.canvas.create_text(150, 125,
+                                                     text="Dummy Text question?",
+                                                     font=("Arial", 16, "italic"),
+                                                     fill=THEME_COLOR,
+                                                     width=280)  # add width to wrap text
+        self.get_next_question()
         self.canvas.grid(row=1, column=0, columnspan=2, pady=50)
 
         # add buttons
@@ -31,6 +40,8 @@ class QuizInterface():
         self.false_btn = Button(image=false_img, highlightthickness=0)
         self.false_btn.grid(row=2, column=1)
 
-
-
         self.window.mainloop()
+
+    def get_next_question(self):
+        next_question = self.quiz_brain.next_question()
+        self.canvas.itemconfig(self.question_text, text=next_question)
