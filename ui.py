@@ -51,6 +51,9 @@ class QuizInterface:
             self.canvas.itemconfig(self.question_text,
                                    text=f"You have reached the end of the quiz. "
                                         f"You got {self.quiz_brain.score} correct out of 10")
+            # disable buttons
+            self.true_btn.config(state="disabled")
+            self.false_btn.config(state="disabled")
 
     def check_true(self):
         self.give_feedback(self.quiz_brain.check_answer("true"))
